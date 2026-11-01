@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="codeCompletorXChatbot/codeCompletorXChatbot.vcxproj" Id="e0178ee6-044c-4710-bc00-3e6ca79f7038" />
+</Solution>

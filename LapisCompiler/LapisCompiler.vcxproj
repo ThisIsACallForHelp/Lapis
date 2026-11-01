@@ -123,15 +123,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LapisCompiler.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ASTNode.h" />
+    <ClInclude Include="BlockStatementNode.h" />
+    <ClInclude Include="ExpressionNode.h" />
+    <ClInclude Include="ImportNode.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="LinkDirectiveNode.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="ProgramNode.h" />
+    <ClInclude Include="StatementNode.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenModel.h" />
+    <ClInclude Include="VaraibleDeclarationNode.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AST_Breakdown.md" />
     <None Include="Complex_Object.md">
       <SubType>
       </SubType>
@@ -150,6 +160,9 @@
     </None>
     <None Include="SyntaxBreakdown.md" />
     <None Include="Variables.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LapisCompiler.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

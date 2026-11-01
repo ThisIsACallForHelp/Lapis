@@ -130,15 +130,22 @@
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="BlockStatementNode.h" />
     <ClInclude Include="ExpressionNode.h" />
+    <ClInclude Include="ForLoopNode.h" />
+    <ClInclude Include="FunctionDeclarationNode.h" />
+    <ClInclude Include="IfStatement.h" />
     <ClInclude Include="ImportNode.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LinkDirectiveNode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ProgramNode.h" />
+    <ClInclude Include="ReturnStatementNode.h" />
     <ClInclude Include="StatementNode.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenModel.h" />
-    <ClInclude Include="VaraibleDeclarationNode.h" />
+    <ClInclude Include="UnsafeBlockNode.h" />
+    <ClInclude Include="UntilLoopNode.h" />
+    <ClInclude Include="VariableDeclarationNode.h" />
+    <ClInclude Include="WhileLoopNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AST_Breakdown.md" />

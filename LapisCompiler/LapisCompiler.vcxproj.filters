@@ -72,7 +72,28 @@
     <ClInclude Include="ImportNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
-    <ClInclude Include="VaraibleDeclarationNode.h">
+    <ClInclude Include="VariableDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="IfStatement.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="WhileLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UntilLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ForLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UnsafeBlockNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
   </ItemGroup>

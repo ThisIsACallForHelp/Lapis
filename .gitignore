@@ -1,0 +1,33 @@
+# Visual Studio 2022 / C++ cache and build directories
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# C++ Compilation artifacts
+*.aps
+*.ncb
+*.opendb
+*.db
+*.tlog
+*.lastbuildstate
+*.idb
+*.iobj
+*.ipch
+*.pch
+*.ilk
+*.exe
+*.dll
+*.pdb
+*.lib

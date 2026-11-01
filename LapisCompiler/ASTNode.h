@@ -10,5 +10,7 @@ class ASTNode
 		inline int GetTokenType() const { return _token.GetTokenType(); }
 		inline int GetCharPosition() const { return _token.GetCharPosition(); }
 		inline std::string GetTokenValue() const { return _token.GetTokenValue(); }
+
+		virtual ~ASTNode() = default;
 };
 

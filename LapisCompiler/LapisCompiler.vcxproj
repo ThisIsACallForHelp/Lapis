@@ -132,7 +132,7 @@
     <ClInclude Include="ExpressionNode.h" />
     <ClInclude Include="ForLoopNode.h" />
     <ClInclude Include="FunctionDeclarationNode.h" />
-    <ClInclude Include="IfStatement.h" />
+    <ClInclude Include="IfStatementNode.h" />
     <ClInclude Include="ImportNode.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LinkDirectiveNode.h" />

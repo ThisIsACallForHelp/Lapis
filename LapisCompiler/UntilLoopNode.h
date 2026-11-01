@@ -4,10 +4,10 @@
 #include "BlockStatementNode.h"
 class UntilLoopNode : public StatementNode {
 public:
-	ExpressionNode condition;
-	BlockStatementNode innerBody;
+	std::unique_ptr<ExpressionNode> condition;
+	std::unique_ptr<BlockStatementNode> innerBody;
 
-	UntilLoopNode(TokenModel token, ExpressionNode conditionExp, BlockStatementNode blockState) :
-		StatementNode(token), condition(conditionExp), innerBody(blockState) {
+	UntilLoopNode(TokenModel token, std::unique_ptr<ExpressionNode> conditionExp, std::unique_ptr<BlockStatementNode> blockState) :
+		StatementNode(token), condition(std::move(conditionExp)), innerBody(std::move(blockState)) {
 	};
 };

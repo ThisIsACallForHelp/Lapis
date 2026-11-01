@@ -81,7 +81,7 @@
     <ClInclude Include="ReturnStatementNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
-    <ClInclude Include="IfStatement.h">
+    <ClInclude Include="IfStatementNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
     <ClInclude Include="WhileLoopNode.h">

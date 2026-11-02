@@ -7,11 +7,12 @@
 class FunctionDeclarationNode : public StatementNode {
 	public:
 		std::string functionName;
-		std::unique_ptr<Token> accessModifier;
+		Token::Tokens accessModifier;
 		std::unique_ptr<Token> specifier;
-		std::unique_ptr<std::string> returnType;
+		std::string returnType;
 		std::vector<std::unique_ptr<VariableDeclarationNode>> args;
 		std::unique_ptr<BlockStatementNode> code;
+<<<<<<< HEAD
 		std::unique_ptr<ReturnStatementNode> returnedStatement;
 
 		FunctionDeclarationNode(TokenModel token, std::string funcName, std::unique_ptr<Token> accModifier,
@@ -22,4 +23,13 @@ class FunctionDeclarationNode : public StatementNode {
 			returnType(std::move(typeReturned)), code(std::move(innerBody)), returnedStatement(std::move(retState)), args(std::move(params)) {
 
 		};
+=======
+
+		FunctionDeclarationNode(TokenModel token, std::string funcName,
+			Token::Tokens accModifier,
+			Token::Tokens specifier,
+			std::string returnType,
+			std::unique_ptr<BlockStatementNode> innerBody,
+			std::vector<std::unique_ptr<VariableDeclarationNode>> params)
+>>>>>>> 6e7aa9d (almost finished all of the nodes in the parser)
 };

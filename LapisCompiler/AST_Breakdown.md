@@ -33,7 +33,7 @@ Statements:
 - ReturnStatementNode => for returned values
 - BreakStatementNode => loop control 
 - ContinueStatementNode => loop control
-- DeferStatmenetNode => guarantees cleanup on scope exit
+- DeferStatementNode => guarantees cleanup on scope exit
 - EraseStatementNode => for deallocating 
 - TryCatchNode => safer code
 - UnsafeBlockNode => unsafe code 

@@ -96,6 +96,51 @@
     <ClInclude Include="UnsafeBlockNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
+    <ClInclude Include="BinaryExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UnaryExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="TryCatchNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchCaseNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ContinueStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EraseStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionCallNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="StructDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumMemberNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SyntaxBreakdown.md">

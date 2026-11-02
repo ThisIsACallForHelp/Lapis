@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 #include "StatementNode.h"
-class BlockStatementNode : public ASTNode {
+class BlockStatementNode : public StatementNode {
 	public:
 		std::vector<std::unique_ptr<StatementNode>> statements;
 		BlockStatementNode(TokenModel token)
-			: ASTNode(token){
+			: StatementNode(token){
 		};
 };

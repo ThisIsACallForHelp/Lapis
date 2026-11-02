@@ -128,20 +128,35 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASTNode.h" />
+    <ClInclude Include="AtomExpressionNode.h" />
+    <ClInclude Include="BinaryExpressionNode.h" />
     <ClInclude Include="BlockStatementNode.h" />
+    <ClInclude Include="BreakStatementNode.h" />
+    <ClInclude Include="ClassDeclarationNode.h" />
+    <ClInclude Include="ContinueStatementNode.h" />
+    <ClInclude Include="DeferStatementNode.h" />
+    <ClInclude Include="EnumDeclarationNode.h" />
+    <ClInclude Include="EnumMemberNode.h" />
+    <ClInclude Include="EraseStatementNode.h" />
     <ClInclude Include="ExpressionNode.h" />
     <ClInclude Include="ForLoopNode.h" />
+    <ClInclude Include="FunctionCallNode.h" />
     <ClInclude Include="FunctionDeclarationNode.h" />
     <ClInclude Include="IfStatementNode.h" />
     <ClInclude Include="ImportNode.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LinkDirectiveNode.h" />
+    <ClInclude Include="MatchCaseNode.h" />
+    <ClInclude Include="MatchStatementNode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ProgramNode.h" />
     <ClInclude Include="ReturnStatementNode.h" />
     <ClInclude Include="StatementNode.h" />
+    <ClInclude Include="StructDeclarationNode.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenModel.h" />
+    <ClInclude Include="TryCatchNode.h" />
+    <ClInclude Include="UnaryExpressionNode.h" />
     <ClInclude Include="UnsafeBlockNode.h" />
     <ClInclude Include="UntilLoopNode.h" />
     <ClInclude Include="VariableDeclarationNode.h" />

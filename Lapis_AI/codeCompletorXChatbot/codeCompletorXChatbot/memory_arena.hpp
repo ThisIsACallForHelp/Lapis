@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <new>
-static constexpr size_t POOL_SIZE = 64 * 1024 * 1024;
+static constexpr size_t POOL_SIZE = 640 * 1024 * 1024;
 
 
 class MemoryArena

@@ -5,6 +5,7 @@ class Token
 {
 public:
 	enum Tokens {
+		noneToken,
 		letToken,
 		forToken,
 		whileToken,

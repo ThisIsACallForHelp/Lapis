@@ -22,24 +22,124 @@
     <Filter Include="info\Syntax">
       <UniqueIdentifier>{97937b81-0cd0-4f9f-8feb-3dee0e6f365c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Lexer_h">
+      <UniqueIdentifier>{41ec8094-0630-4a92-b7ec-d635f001abed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parser_h">
+      <UniqueIdentifier>{e879ec0f-ef85-4adf-97d0-d5c6be25f3b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lexer_cpp">
+      <UniqueIdentifier>{3cb49f06-969e-4cc1-ba9a-2f80e721be0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser_cpp">
+      <UniqueIdentifier>{375055c0-45cc-42bc-b919-71e6d4d99671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compilation_Info">
+      <UniqueIdentifier>{f214bfbc-f66d-40b8-8047-283129b3c1a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LapisCompiler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lexer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Lexer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TokenModel.h">
+      <Filter>Header Files\Lexer_h</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Lexer_h</Filter>
     </ClInclude>
-    <ClInclude Include="TokenModel.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Lexer.h">
+      <Filter>Header Files\Lexer_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ASTNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="StatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkDirectiveNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="IfStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="WhileLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UntilLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ForLoopNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UnsafeBlockNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="UnaryExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="TryCatchNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchCaseNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ContinueStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EraseStatementNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionCallNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="StructDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumMemberNode.h">
+      <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -61,5 +161,21 @@
     <None Include="CoolShortcuts.md">
       <Filter>info\Syntax</Filter>
     </None>
+    <None Include="AST_Breakdown.md">
+      <Filter>Header Files\Compilation_Info</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Lexer.cpp">
+      <Filter>Source Files\Lexer_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Parser_cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LapisCompiler.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

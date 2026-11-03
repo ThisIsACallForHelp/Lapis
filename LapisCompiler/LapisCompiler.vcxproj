@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LapisCompiler.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
@@ -144,8 +145,10 @@
     <ClInclude Include="FunctionDeclarationNode.h" />
     <ClInclude Include="IfStatementNode.h" />
     <ClInclude Include="ImportNode.h" />
+    <ClInclude Include="InterfaceDeclarationNode.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LinkDirectiveNode.h" />
+    <ClInclude Include="MacroDeclarationNode.h" />
     <ClInclude Include="MatchCaseNode.h" />
     <ClInclude Include="MatchStatementNode.h" />
     <ClInclude Include="Parser.h" />

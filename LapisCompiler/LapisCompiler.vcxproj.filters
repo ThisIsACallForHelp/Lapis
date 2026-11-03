@@ -141,6 +141,12 @@
     <ClInclude Include="EnumMemberNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
+    <ClInclude Include="MacroDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceDeclarationNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SyntaxBreakdown.md">
@@ -171,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files\Parser_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="LapisCompiler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

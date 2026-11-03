@@ -147,6 +147,42 @@
     <ClInclude Include="InterfaceDeclarationNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
+    <ClInclude Include="VariablesAccessNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="LiteralNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberAccessNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="AssignmentNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexAccessNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="CastExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="NewExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="FusionExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplaceExpressionNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadFromNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteToNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
+    <ClInclude Include="AddressOfNode.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SyntaxBreakdown.md">

@@ -7,6 +7,12 @@
 class InterfaceDeclarationNode : public StatementNode {
 	public:
 		std::vector<std::unique_ptr<FunctionDeclarationNode>> functions;
+		std::string interfaceName;
 
-		InterfaceDeclarationNode(TokenModel token);
+		InterfaceDeclarationNode(TokenModel token,
+			std::vector<std::unique_ptr<FunctionDeclarationNode>> funcs, 
+			std::string name) :
+			StatementNode(token), functions(std::move(funcs)), 
+			interfaceName(name){
+		};
 };

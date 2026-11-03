@@ -128,11 +128,14 @@
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddressOfNode.h" />
+    <ClInclude Include="AssignmentNode.h" />
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="AtomExpressionNode.h" />
     <ClInclude Include="BinaryExpressionNode.h" />
     <ClInclude Include="BlockStatementNode.h" />
     <ClInclude Include="BreakStatementNode.h" />
+    <ClInclude Include="CastExpressionNode.h" />
     <ClInclude Include="ClassDeclarationNode.h" />
     <ClInclude Include="ContinueStatementNode.h" />
     <ClInclude Include="DeferStatementNode.h" />
@@ -143,16 +146,23 @@
     <ClInclude Include="ForLoopNode.h" />
     <ClInclude Include="FunctionCallNode.h" />
     <ClInclude Include="FunctionDeclarationNode.h" />
+    <ClInclude Include="FusionExpressionNode.h" />
     <ClInclude Include="IfStatementNode.h" />
     <ClInclude Include="ImportNode.h" />
+    <ClInclude Include="IndexAccessNode.h" />
     <ClInclude Include="InterfaceDeclarationNode.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LinkDirectiveNode.h" />
+    <ClInclude Include="LiteralNode.h" />
     <ClInclude Include="MacroDeclarationNode.h" />
     <ClInclude Include="MatchCaseNode.h" />
     <ClInclude Include="MatchStatementNode.h" />
+    <ClInclude Include="MemberAccessNode.h" />
+    <ClInclude Include="NewExpressionNode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ProgramNode.h" />
+    <ClInclude Include="ReadFromNode.h" />
+    <ClInclude Include="ReplaceExpressionNode.h" />
     <ClInclude Include="ReturnStatementNode.h" />
     <ClInclude Include="StatementNode.h" />
     <ClInclude Include="StructDeclarationNode.h" />
@@ -163,7 +173,9 @@
     <ClInclude Include="UnsafeBlockNode.h" />
     <ClInclude Include="UntilLoopNode.h" />
     <ClInclude Include="VariableDeclarationNode.h" />
+    <ClInclude Include="VariablesAccessNode.h" />
     <ClInclude Include="WhileLoopNode.h" />
+    <ClInclude Include="WriteToNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AST_Breakdown.md" />

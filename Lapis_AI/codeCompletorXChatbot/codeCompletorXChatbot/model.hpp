@@ -106,7 +106,7 @@ struct TransformerBlock {
 struct LayerActivations
 {
 	Tensor x_norm1, rstd1, Q, K, V, attn_probs, attn_out, x_mid,
-		x_norm2, rstd2, gate, up, swiglu_out, ffn_down;
+		x_norm2, rstd2, gate, up, swiglu_out, ffn_down, x_out, attn_proj;
 	static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> LayerActivations
 	{
 		size_t M = B * T;
@@ -128,7 +128,37 @@ struct LayerActivations
 		la.up = Tensor::create_2d(arena, M, D_ffn);
 		la.swiglu_out = Tensor::create_2d(arena, M, D_ffn);
 		la.ffn_down = Tensor::create_2d(arena, M, D);
+		la.x_out = Tensor::create_2d(arena, M, D);
+		la.attn_proj = Tensor::create_2d(arena, M, D);
 		return la;
+	}
+};
+struct BackwardWorkspace
+{
+	Tensor dx_final, dx_curr, dx_prev, dx_mid, dswiglu_out, dgate, dup, dx_norm2, dattn_proj, dattn_out, dQ, dK, dV, dA, dS, dx_norm1;
+	static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> BackwardWorkspace
+	{
+		size_t M = B * T;
+		size_t D = cfg.dim;
+		size_t D_ffn = cfg.ffn_dim;
+		BackwardWorkspace bw;
+		bw.dx_final = Tensor::create_2d(arena, M, D);
+		bw.dx_curr = Tensor::create_2d(arena, M, D);
+		bw.dx_prev = Tensor::create_2d(arena, M, D);
+		bw.dx_mid = Tensor::create_2d(arena, M, D);
+		bw.dswiglu_out = Tensor::create_2d(arena, M, D_ffn);
+		bw.dgate = Tensor::create_2d(arena, M, D_ffn);
+		bw.dup = Tensor::create_2d(arena, M, D_ffn);
+		bw.dx_norm2 = Tensor::create_2d(arena, M, D);
+		bw.dattn_proj = Tensor::create_2d(arena, M, D);
+		bw.dattn_out = Tensor::create_3d(arena, B, T, D);
+		bw.dQ = Tensor::create_3d(arena, B, T, D);
+		bw.dK = Tensor::create_3d(arena, B, T, D);
+		bw.dV = Tensor::create_3d(arena, B, T, D);
+		bw.dA = Tensor::create_1d(arena, T);
+		bw.dS = Tensor::create_1d(arena, T);
+		bw.dx_norm1 = Tensor::create_2d(arena, M, D);
+		return bw;
 	}
 };
 
@@ -259,5 +289,76 @@ struct TransformerModel
 			adamw_step(b.W_up, b.m_W_up, b.v_W_up, b.dW_up, lr, step, beta1, beta2, eps, weight_decay);
 			adamw_step(b.W_down, b.m_W_down, b.v_W_down, b.dW_down, lr, step, beta1, beta2, eps, weight_decay);
 		}
+	}
+	auto forward(const Tensor& token_ids, std::vector<LayerActivations>& layer_acts, Tensor& x_0, Tensor& x_final, Tensor& rstd_final, Tensor& logits) -> void
+	{
+		size_t B = token_ids.shape(0);
+		size_t T = token_ids.shape(1);
+		size_t M = B * T;
+		size_t D = config.dim;
+		for (size_t m = 0; m < M; ++m)
+		{
+			size_t id = static_cast<size_t>(token_ids.data()[m]);
+			for (size_t d = 0; d < D; ++d)
+			{
+				x_0(m, d) = this->token_embeddings(id, d);
+			}
+		}
+		for (size_t l = 0; l < config.num_layers; ++l)
+		{
+			TransformerBlock& layer = this->layers[l];
+			LayerActivations& activation = layer_acts[l];
+			const Tensor& x_in = (l == 0) ? x_0 : layer_acts[l - 1].x_out;
+			rmsnorm_forward(x_in, layer.gamma_attn, activation.x_norm1, activation.rstd1, config.eps);
+			Tensor Q_2d(activation.Q.data(), M, D);
+			Tensor K_2d(activation.K.data(), M, D);
+			Tensor V_2d(activation.V.data(), M, D);
+			gemm_forward(activation.x_norm1, layer.W_q, Q_2d);
+			gemm_forward(activation.x_norm1, layer.W_k, K_2d);
+			gemm_forward(activation.x_norm1, layer.W_v, V_2d);
+			rope_forward(activation.Q, config.num_heads);
+			rope_forward(activation.K, config.num_heads);
+			attention_forward(activation.Q, activation.K, activation.V, activation.attn_probs, activation.attn_out, config.num_heads);
+			Tensor attn_out_2d(activation.attn_out.data(), M, D);
+			gemm_forward(attn_out_2d, layer.W_o, activation.attn_proj);
+			size_t elem_count = activation.x_mid.numel();
+			for (size_t j = 0; j < elem_count; ++j)
+			{
+				activation.x_mid.data()[j] = x_in.data()[j] + activation.attn_proj.data()[j];
+			}
+			rmsnorm_forward(activation.x_mid, layer.gamma_ffn, activation.x_norm2, activation.rstd2, config.eps);
+			gemm_forward(activation.x_norm2, layer.W_gate, activation.gate);
+			gemm_forward(activation.x_norm2, layer.W_up, activation.up);
+			swiglu_forward(activation.gate, activation.up, activation.swiglu_out);
+			gemm_forward(activation.swiglu_out, layer.W_down, activation.ffn_down);
+			elem_count = activation.x_out.numel();
+			for (size_t j = 0; j < elem_count; ++j)
+			{
+				activation.x_out.data()[j] = activation.x_mid.data()[j] + activation.ffn_down.data()[j];
+			}
+		}
+		rmsnorm_forward(layer_acts.back().x_out, this->gamma_final, x_final, rstd_final, config.eps);
+		gemm_forward(x_final, this->lm_head, logits);
+	}
+
+	auto backward(const Tensor& token_ids, std::vector<LayerActivations>& layer_acts, Tensor& x_0, Tensor& x_final, Tensor& rstd_final, Tensor& d_logits, BackwardWorkspace& bw) -> void
+	{
+		gemm_backward(x_final, this->lm_head, d_logits, bw.dx_final, this->d_lm_head);
+		rmsnorm_backward(layer_acts.back().x_out, this->gamma_final, bw.dx_final, rstd_final, bw.dx_curr, this->d_gamma_final);
+		size_t num_layers = config.num_layers;
+		for (int l = static_cast<int>(num_layers) - 1; l >= 0; --l)
+		{
+			TransformerBlock& layer = this->layers[l];
+			LayerActivations& activation = layer_acts[l];
+			const Tensor& x_in = (l == 0) ? x_0: layer_acts[l-1].x_out;
+			size_t elem_count = bw.dx_mid.numel();
+			for (size_t j = 0; j < elem_count; ++j)
+			{
+				bw.dx_mid.data()[j] = bw.dx_curr.data()[j];
+			}
+
+
+		}
+
 	}
 };

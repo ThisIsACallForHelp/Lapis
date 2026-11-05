@@ -8,7 +8,7 @@ our abstract syntax tree will be broken down to 4 categories:
 now, lets determine what will be included:
 
 Roots & Structures:
-- ProgramNode => the list of all the top-level statements/declarations
+- ProgramNode => the list of all the top-level statements/declarations : done
 - BlockStatementNode => any code inside of { ... }
 - LinkDirectiveNode => for linking libraries
 - ImportNode => for importing libraries

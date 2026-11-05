@@ -3,6 +3,8 @@
 #include "ExpressionNode.h"
 #include "FunctionDeclarationNode.h"
 #include "VariableDeclarationNode.h"
+#include <memory>
+#include <vector>
 class ClassDeclarationNode : public StatementNode {
 	public:
         std::string className;
@@ -11,6 +13,7 @@ class ClassDeclarationNode : public StatementNode {
 		std::vector<std::unique_ptr<StatementNode>> inheritsFrom;
 		std::vector<std::unique_ptr<VariableDeclarationNode>> fields;
 		std::vector<std::unique_ptr<FunctionDeclarationNode>> innerFunctions;
+
         ClassDeclarationNode(TokenModel token, std::string name,
             std::vector<std::unique_ptr<StatementNode>> parents,
             std::vector<std::unique_ptr<VariableDeclarationNode>> properties,

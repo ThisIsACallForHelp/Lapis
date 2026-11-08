@@ -356,9 +356,42 @@ struct TransformerModel
 			{
 				bw.dx_mid.data()[j] = bw.dx_curr.data()[j];
 			}
-
-
+			gemm_backward(activation.swiglu_out, layer.W_down, bw.dx_curr, bw.dswiglu_out, layer.dW_down);
+			swiglu_backward(activation.gate, activation.up, bw.dswiglu_out, bw.dgate, bw.dup);
+			gemm_backward(activation.x_norm2, layer.W_gate, bw.dgate, bw.dx_norm2, layer.dW_gate);
+			gemm_backward(activation.x_norm2, layer.W_up, bw.dup, bw.dx_prev, layer.dW_up);
+			size_t num_elem = activation.x_norm2.numel();
+			for (size_t j = 0; j < num_elem; ++j) {bw.dx_norm2.data()[j] += bw.dx_prev.data()[j];}
+			rmsnorm_backward(activation.x_mid, layer.gamma_ffn, bw.dx_norm2, activation.rstd2, bw.dx_prev, layer.d_gamma_ffn);
+			for (size_t j = 0; j < num_elem; ++j) {bw.dx_mid.data()[j] += bw.dx_prev.data()[j];}
+			for (size_t j = 0; j < num_elem; ++j) {bw.dattn_proj.data()[j] = bw.dx_mid.data()[j];}
+			size_t B = activation.attn_out.shape(0);
+			size_t T = activation.attn_out.shape(1);
+			size_t D = activation.attn_out.shape(2);
+			size_t M = B * T;
+			Tensor attn_out_2d(activation.attn_out.data(), M, D);
+			Tensor dattn_out_2d(bw.dattn_out.data(), M, D);
+			gemm_backward(attn_out_2d, layer.W_o, bw.dattn_proj, dattn_out_2d, layer.dW_o);
+			attention_backward(activation.Q, activation.K, activation.V, activation.attn_probs, bw.dattn_out, bw.dQ, bw.dK, bw.dV, config.num_heads, bw.dA, bw.dS);
+			rope_backward(bw.dQ, config.num_heads);
+			rope_backward(bw.dK, config.num_heads);
+			Tensor dQ_2d(bw.dQ.data(), M, D);
+			Tensor dK_2d(bw.dK.data(), M, D);
+			Tensor dV_2d(bw.dV.data(), M, D);
+			gemm_backward(activation.x_norm1, layer.W_q, dQ_2d, bw.dx_norm1, layer.dW_q);
+			gemm_backward(activation.x_norm1, layer.W_k, dK_2d, bw.dx_prev, layer.dW_k);
+			for (size_t j = 0; j < num_elem; ++j) {bw.dx_norm1.data()[j] += bw.dx_prev.data()[j];}
+			gemm_backward(activation.x_norm1, layer.W_v, dV_2d, bw.dx_prev, layer.dW_v);
+			for (size_t j = 0; j < num_elem; ++j) {bw.dx_norm1.data()[j] += bw.dx_prev.data()[j];}
+			rmsnorm_backward(x_in, layer.gamma_attn, bw.dx_norm1, activation.rstd1, bw.dx_prev, layer.d_gamma_attn);
+			for (size_t j = 0; j < num_elem; ++j) {bw.dx_curr.data()[j] = bw.dx_prev.data()[j] + bw.dx_mid.data()[j];}
 		}
-
+		size_t M = token_ids.numel();
+		size_t D = this->config.dim;
+		for (size_t m = 0; m < M; ++m)
+		{
+			size_t id = static_cast<size_t>(token_ids.data()[m]);
+			for (size_t d = 0; d < D; ++d) {this->d_token_embeddings(id, d) += bw.dx_curr(m, d);}
+		}
 	}
 };

@@ -15,5 +15,6 @@ class TokenModel
 		inline int GetCharPosition() const { return _charPosition; }
 		inline Token::Tokens GetTokenType() const { return _token; }
 		inline std::string GetTokenValue() const { return _tokenValue; }
+		bool operator==(TokenModel& token) { return (this->GetTokenType() == token.GetTokenType() && this->GetTokenValue() == token.GetTokenValue()); }
 };
 

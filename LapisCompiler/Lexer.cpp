@@ -188,6 +188,7 @@ bool IsLogicalOperator(std::string character) {
 	return (multiCharOperators.find(character) != multiCharOperators.end());
 }
 
+
 TokenModel Lexer::TokenizeText(std::string code){
 	if (_position >= code.size()) {
 		return TokenModel(Token::eofToken, "", _lineNumber, _charNumber - 1);
@@ -257,6 +258,9 @@ TokenModel Lexer::TokenizeText(std::string code){
 			tokenWord += currentChar;
 			currentChar = NextChar();
 			this->_charNumber++;
+		}
+		if (tokenWord.compare("constructor") == 0) {
+			return TokenModel(Token::functionToken, tokenWord, this->_lineNumber, this->_charNumber - tokenWord.size());
 		}
 		auto found = tokenDictionary.find(tokenWord);
 		if (found != tokenDictionary.end()) {

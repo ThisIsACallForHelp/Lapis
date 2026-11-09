@@ -183,6 +183,9 @@
     <ClInclude Include="AddressOfNode.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
+    <ClInclude Include="AST.h">
+      <Filter>Header Files\Parser_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SyntaxBreakdown.md">

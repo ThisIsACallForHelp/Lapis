@@ -19,6 +19,5 @@ public:
 	char NextChar();
 	bool IsOutOfBoundary(int step = 1);
 	TokenModel TokenizeText(std::string code);
-
 };
 

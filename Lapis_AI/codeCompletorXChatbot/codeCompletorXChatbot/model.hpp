@@ -272,6 +272,24 @@ struct TransformerModel
 			b.v_W_down.Zero();
 		}
 	}
+	auto zero_grad() -> void
+	{
+		this->d_token_embeddings.Zero();
+		this->d_gamma_final.Zero();
+		this->d_lm_head.Zero();
+		for (auto& b : this->layers)
+		{
+			b.d_gamma_attn.Zero();
+			b.dW_q.Zero();
+			b.dW_k.Zero();
+			b.dW_v.Zero();
+			b.dW_o.Zero();
+			b.d_gamma_ffn.Zero();
+			b.dW_gate.Zero();
+			b.dW_up.Zero();
+			b.dW_down.Zero();
+		}
+	}
 	auto step_optimizer(float lr, size_t step, float beta1 = 0.9f, float beta2 = 0.999f, float eps = 1e-8f, float weight_decay = 0.01f) -> void
 	{
 		adamw_step(this->token_embeddings, this->m_token_embeddings, this->v_token_embeddings, d_token_embeddings, lr, step, beta1, beta2, eps, weight_decay);

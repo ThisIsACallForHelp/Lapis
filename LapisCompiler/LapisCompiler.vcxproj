@@ -126,12 +126,15 @@
     <ClCompile Include="LapisCompiler.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="SemanticAnalysis.cpp" />
+    <ClCompile Include="SymbolModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressOfNode.h" />
     <ClInclude Include="AssignmentNode.h" />
     <ClInclude Include="AST.h" />
     <ClInclude Include="ASTNode.h" />
+    <ClInclude Include="ASTVisitor.h" />
     <ClInclude Include="AtomExpressionNode.h" />
     <ClInclude Include="BinaryExpressionNode.h" />
     <ClInclude Include="BlockStatementNode.h" />
@@ -143,6 +146,7 @@
     <ClInclude Include="EnumDeclarationNode.h" />
     <ClInclude Include="EnumMemberNode.h" />
     <ClInclude Include="EraseStatementNode.h" />
+    <ClInclude Include="ErrorReporter.h" />
     <ClInclude Include="ExpressionNode.h" />
     <ClInclude Include="ForLoopNode.h" />
     <ClInclude Include="FunctionCallNode.h" />
@@ -153,6 +157,7 @@
     <ClInclude Include="IndexAccessNode.h" />
     <ClInclude Include="InterfaceDeclarationNode.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="LifecycleState.h" />
     <ClInclude Include="LinkDirectiveNode.h" />
     <ClInclude Include="LiteralNode.h" />
     <ClInclude Include="MacroDeclarationNode.h" />
@@ -165,11 +170,19 @@
     <ClInclude Include="ReadFromNode.h" />
     <ClInclude Include="ReplaceExpressionNode.h" />
     <ClInclude Include="ReturnStatementNode.h" />
+    <ClInclude Include="SafetyTracker.h" />
+    <ClInclude Include="SemanticAnalysis.h" />
     <ClInclude Include="StatementNode.h" />
     <ClInclude Include="StructDeclarationNode.h" />
+    <ClInclude Include="Symbol.h" />
+    <ClInclude Include="SymbolError.h" />
+    <ClInclude Include="SymbolKind.h" />
+    <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenModel.h" />
     <ClInclude Include="TryCatchNode.h" />
+    <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeSystem.h" />
     <ClInclude Include="UnaryExpressionNode.h" />
     <ClInclude Include="UnsafeBlockNode.h" />
     <ClInclude Include="UntilLoopNode.h" />

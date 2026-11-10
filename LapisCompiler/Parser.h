@@ -21,7 +21,6 @@ class Parser
 	std::unique_ptr<AddressOfNode> ParseAddressOfNode();
 	std::unique_ptr<AssignmentNode> ParseAssignmentNode();
 	std::unique_ptr<AtomExpressionNode> ParseAtomExpression();
-	std::unique_ptr<BinaryExpressionNode> ParseBinaryExpression();
 	std::unique_ptr<ExpressionNode> ParseLogicalOR();
 	std::unique_ptr<ExpressionNode> ParseLogicalAND();
 	std::unique_ptr<ExpressionNode> ParseBitwiseOR();

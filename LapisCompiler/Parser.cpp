@@ -63,7 +63,7 @@ Token::Tokens Parser::MatchByType(Token::Tokens expected, Token::Tokens existing
 	oss << "Parser Panic! Caught An Unexpected Token-Type At Line " << this->Current().GetLineNumber() 
 		<< ", With An Input Type " << existing << ". Did You Mean " << expected <<"?";
 	std::string exceptionStr = oss.str();
-	throw new std::runtime_error(exceptionStr);
+	throw std::runtime_error(exceptionStr);
 }
 
 TokenModel Parser::Match(TokenModel expected) const{
@@ -86,8 +86,20 @@ TokenModel Parser::Peek(int offset) const {
 		_position);
 }
 
-std::unique_ptr<ProgramNode> Parser::Parse() {
+//std::unique_ptr<ProgramNode> Parser::Parse() {
 
+//}
+
+std::unique_ptr<FunctionDeclarationNode> Parser::ParseFuncDeclaration() {
+	throw std::runtime_error("ParseFuncDeclaration not implemented");
+}
+
+std::unique_ptr<StatementNode> Parser::ParseStatementNode() {
+	throw std::runtime_error("ParseStatementNode not implemented");
+}
+
+std::unique_ptr<VariableDeclarationNode> Parser::ParseVarDeclaration() {
+	throw std::runtime_error("ParseVarDeclaration not implemented");
 }
 
 std::unique_ptr<AtomExpressionNode> Parser::ParseAtomExpression() {
@@ -141,7 +153,7 @@ std::unique_ptr<AssignmentNode> Parser::ParseAssignmentNode() {
 		this->MatchByType(Token::identifierToken, this->Current().GetTokenType());
 		target = this->ParseExpressionNode();
 		this->Advance();
-		return std::make_unique<AssignmentNode>(astToken, target, assignmentType, nullptr);
+		return std::make_unique<AssignmentNode>(astToken, std::move(target), assignmentType, nullptr);
 	}
 	else if (this->Current().GetTokenType() == Token::identifierToken) { 
 		// {operand} {operator} {optionalVal}
@@ -157,11 +169,11 @@ std::unique_ptr<AssignmentNode> Parser::ParseAssignmentNode() {
 		Token::Tokens tokenType = this->Current().GetTokenType();
 		this->Advance();
 		if (tokenType == Token::plusPlusToken || tokenType == Token::minusMinusToken) {
-			return std::make_unique<AssignmentNode>(astToken, target, assignmentType, nullptr);
+			return std::make_unique<AssignmentNode>(astToken, std::move(target), assignmentType, nullptr);
 		}
 		if (this->Current().GetTokenType() == Token::identifierToken) {
 			std::unique_ptr<ExpressionNode> val = this->ParseExpressionNode();
-			return std::make_unique<AssignmentNode>(astToken, target, assignmentType, val);
+			return std::make_unique<AssignmentNode>(astToken, std::move(target), assignmentType, std::move(val));
 		}
 	}
 	std::ostringstream oss;
@@ -170,19 +182,6 @@ std::unique_ptr<AssignmentNode> Parser::ParseAssignmentNode() {
 	throw std::runtime_error(exceptionStr);
 }
 
-std::unique_ptr<BinaryExpressionNode> Parser::ParseBinaryExpression() {
-	//{left} {operator} {right}
-	TokenModel astToken = this->Current();
-	std::unique_ptr<ExpressionNode> left = this->ParseExpressionNode();
-	if (left == nullptr) {
-		return;
-	}
-	TokenModel logicalGate = this->Current();
-	while (left != nullptr && IsALogicalOperator(logicalGate.GetTokenType())) {
-		//this is where i will check the kind of expression i am dealing with
-	}
-	return left;
-}
 
 std::unique_ptr<ExpressionNode> Parser::ParseLogicalOR() {
 	std::unique_ptr<ExpressionNode> left = ParseLogicalAND();
@@ -382,7 +381,7 @@ std::unique_ptr<ExpressionNode> Parser::ParsePrimary() {
 		MatchThisByTypeAndAdvance(Token::closeParenthesisToken);
 	}
 	else if (type == Token::addressToken) {
-		expressionPtr = std::make_unique<AddressOfNode>(ParseAddressOfNode());
+		expressionPtr = ParseAddressOfNode();
 	}
 	else {
 		throw std::runtime_error("Parser Panic! Unexpected token '" + currentToken.GetTokenValue()
@@ -434,7 +433,7 @@ std::unique_ptr<CastExpressionNode> Parser::ParseCastExpression() {
 	TokenModel astToken = this->Current();
 	this->MatchThisByTypeAndAdvance(Token::closeParenthesisToken);
 	std::unique_ptr<ExpressionNode> destination = this->ParseExpressionNode();
-	return std::make_unique<CastExpressionNode>(astToken, destination, astToken.GetTokenValue());
+	return std::make_unique<CastExpressionNode>(astToken, std::move(destination), astToken.GetTokenValue());
 }
 
 std::unique_ptr<ClassDeclarationNode> Parser::ParseClassDeclaration() {
@@ -456,7 +455,7 @@ std::unique_ptr<ClassDeclarationNode> Parser::ParseClassDeclaration() {
 	this->MatchByType(Token::identifierToken, nameToken.GetTokenType());
 	std::string className = nameToken.GetTokenValue();
 	this->Advance();
-	std::vector<std::unique_ptr<StatementNode>> fatherClasses;
+	std::vector<TokenModel> fatherClasses;
 	if (this->Current().GetTokenType() == Token::extendsToken) {
 		this->MatchThisByTypeAndAdvance(Token::extendsToken);
 		TokenModel currToken = this->Current();
@@ -467,7 +466,7 @@ std::unique_ptr<ClassDeclarationNode> Parser::ParseClassDeclaration() {
 				continue;
 			}
 			this->MatchByType(Token::identifierToken, currToken.GetTokenType());
-			fatherClasses.push_back(std::make_unique<VariableAccessNode>(currToken, currToken));
+			fatherClasses.push_back(currToken);
 			this->Advance();
 		}
 		if (fatherClasses.size() == 0) {

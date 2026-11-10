@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Compilation_Info">
       <UniqueIdentifier>{f214bfbc-f66d-40b8-8047-283129b3c1a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Semantics_cpp">
+      <UniqueIdentifier>{3e8c2fdc-4741-4653-95ef-00ab5c4c4578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Semantics_h">
+      <UniqueIdentifier>{b088557c-85ee-4cf0-bd00-704beb8e3803}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TokenModel.h">
@@ -186,6 +192,39 @@
     <ClInclude Include="AST.h">
       <Filter>Header Files\Parser_h</Filter>
     </ClInclude>
+    <ClInclude Include="SemanticAnalysis.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ASTVisitor.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolError.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="SafetyTracker.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolKind.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="LifecycleState.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeSystem.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorReporter.h">
+      <Filter>Header Files\Semantics_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SyntaxBreakdown.md">
@@ -218,6 +257,12 @@
       <Filter>Source Files\Parser_cpp</Filter>
     </ClCompile>
     <ClCompile Include="LapisCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SemanticAnalysis.cpp">
+      <Filter>Source Files\Semantics_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

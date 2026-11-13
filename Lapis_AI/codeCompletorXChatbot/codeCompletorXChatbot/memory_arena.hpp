@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <new>
-static constexpr size_t POOL_SIZE = 640 * 1024 * 1024;
+inline static constexpr size_t POOL_SIZE = 2ULL * 1024 * 1024 * 1024;
 
 
 class MemoryArena
@@ -12,7 +12,7 @@ class MemoryArena
 	size_t _m_capacity;
 	size_t _m_offset;
 	public:
-		inline MemoryArena(size_t capacity_bytes = POOL_SIZE)
+		inline explicit MemoryArena(size_t capacity_bytes = POOL_SIZE)
 		{
 			this->_m_capacity = capacity_bytes;
 			this->_m_offset = 0;
@@ -27,13 +27,13 @@ class MemoryArena
 
 		auto operator=(const MemoryArena&) -> MemoryArena& = delete;
 
-		inline ~MemoryArena()
+		inline ~MemoryArena() noexcept
 		{
 			_aligned_free(this->_m_data);
 			this->_m_data = nullptr;
 		}
 
-		inline auto allocate_bytes(size_t bytes, size_t alignment = 64) -> void*
+		[[nodiscard]] inline auto allocate_bytes(size_t bytes, size_t alignment = 64) -> void*
 		{
 			size_t aligned_offset = (this->_m_offset + alignment - 1) & ~(alignment - 1);
 			if (aligned_offset + bytes > this->_m_capacity)
@@ -45,14 +45,14 @@ class MemoryArena
 			return ptr;
 		}
 
-		inline auto allocate_floats(size_t count) -> float*
+		[[nodiscard]] inline auto allocate_floats(size_t count) -> float*
 		{
 			return static_cast<float*>(this->allocate_bytes(count * sizeof(float), 64));
 		}
 
-		inline auto reset() -> void {this->_m_offset = 0;}
+		inline auto reset() noexcept -> void {this->_m_offset = 0;}
 
-		inline auto used_bytes() const -> size_t {return this->_m_offset;}
+		[[nodiscard]] inline auto used_bytes() const noexcept -> size_t {return this->_m_offset;}
 
-		inline auto remaining_bytes() const -> size_t { return this->_m_capacity - this->_m_offset;}
+		[[nodiscard]] inline auto remaining_bytes() const noexcept -> size_t { return this->_m_capacity - this->_m_offset;}
 };

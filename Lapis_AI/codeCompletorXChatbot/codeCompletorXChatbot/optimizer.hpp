@@ -3,7 +3,7 @@
 #include <cassert>
 #include "tensor.hpp"
 
-inline auto adamw_step(Tensor& W, Tensor& m, Tensor& v, const Tensor& dW, float lr, size_t step, float beta1 = 0.9f, float beta2 = 0.999f, float eps = 1e-8f, float weight_decay = 0.01f) -> void
+inline auto adamw_step(Tensor& W, Tensor& m, Tensor& v, const Tensor& dW, float lr, size_t step, float beta1 = 0.9f, float beta2 = 0.999f, float eps = 1e-8f, float weight_decay = 0.01f) noexcept -> void
 {
 	assert(W.numel() == dW.numel() && W.numel() == m.numel() && W.numel() == v.numel() && step >= 1);
 	float* W_data = W.data();

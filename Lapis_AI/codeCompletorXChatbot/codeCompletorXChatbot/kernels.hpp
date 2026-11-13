@@ -4,7 +4,7 @@
 #include "tensor.hpp"
 #include <cmath>
 
-inline auto gemm_forward(const Tensor& X, const Tensor& W, Tensor& Y) -> void
+inline auto gemm_forward(const Tensor& X, const Tensor& W, Tensor& Y) noexcept -> void
 {
 	size_t M = X.shape(0);
 	size_t K = X.shape(1);
@@ -24,7 +24,7 @@ inline auto gemm_forward(const Tensor& X, const Tensor& W, Tensor& Y) -> void
 	}
 }
 
-inline auto gemm_backward(const Tensor& X, const Tensor& W, const Tensor& dY, Tensor& dX, Tensor& dW) -> void
+inline auto gemm_backward(const Tensor& X, const Tensor& W, const Tensor& dY, Tensor& dX, Tensor& dW) noexcept -> void
 {
 	size_t M = X.shape(0);
 	size_t K = X.shape(1);
@@ -57,7 +57,7 @@ inline auto gemm_backward(const Tensor& X, const Tensor& W, const Tensor& dY, Te
 
 }
 
-inline auto rmsnorm_forward(const Tensor& X, const Tensor& gamma, Tensor& Y, Tensor& rstd, float eps = 1e-5f) -> void
+inline auto rmsnorm_forward(const Tensor& X, const Tensor& gamma, Tensor& Y, Tensor& rstd, float eps = 1e-5f) noexcept -> void
 {
 	size_t M = X.shape(0);
 	size_t D = X.shape(1);
@@ -66,13 +66,13 @@ inline auto rmsnorm_forward(const Tensor& X, const Tensor& gamma, Tensor& Y, Ten
 	{
 		float sum = 0.0f;
 		for (size_t j = 0; j < D; j++){sum += X(i, j) * X(i, j);}
-		float inv_rms = 1.0f / sqrt((sum/D) + eps);
+		float inv_rms = 1.0f / sqrtf((sum/static_cast<float>(D)) + eps);
 		rstd(i) = inv_rms;
 		for (size_t j = 0; j < D; j++) {Y(i,j) = X(i,j) * inv_rms * gamma(j);}
 	}
 }
 
-inline auto rmsnorm_backward(const Tensor& X, const Tensor& gamma, const Tensor& dY, const Tensor& rstd, Tensor& dX, Tensor& dgamma) -> void
+inline auto rmsnorm_backward(const Tensor& X, const Tensor& gamma, const Tensor& dY, const Tensor& rstd, Tensor& dX, Tensor& dgamma) noexcept -> void
 {
 	size_t M = X.shape(0);
 	size_t D = X.shape(1);
@@ -97,7 +97,7 @@ inline auto rmsnorm_backward(const Tensor& X, const Tensor& gamma, const Tensor&
 	}
 }
 
-inline auto rope_forward(Tensor& X, size_t num_heads, size_t pos_offset = 0) -> void
+inline auto rope_forward(Tensor& X, size_t num_heads, size_t pos_offset = 0) noexcept -> void
 {
 	size_t B = X.shape(0);
 	size_t T = X.shape(1);
@@ -132,7 +132,7 @@ inline auto rope_forward(Tensor& X, size_t num_heads, size_t pos_offset = 0) -> 
 	}
 }
 
-inline auto rope_backward(Tensor& dX, size_t num_heads, size_t pos_offset = 0) -> void
+inline auto rope_backward(Tensor& dX, size_t num_heads, size_t pos_offset = 0) noexcept -> void
 {
 	size_t B = dX.shape(0);
 	size_t T = dX.shape(1);
@@ -167,13 +167,13 @@ inline auto rope_backward(Tensor& dX, size_t num_heads, size_t pos_offset = 0) -
 	}
 }
 
-inline auto attention_forward(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& attn_probs, Tensor& Out, size_t num_heads) -> void
+inline auto attention_forward(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& attn_probs, Tensor& Out, size_t num_heads) noexcept -> void
 {
 	size_t B = Q.shape(0);
 	size_t T = Q.shape(1);
 	size_t D = Q.shape(2);
 	size_t dk = D / num_heads;
-	float csm = 1.0f / sqrt(dk);
+	float csm = 1.0f / sqrtf(static_cast<float>(dk));
 	Out.Zero();
 
 	for (size_t h = 0; h < num_heads; h++)
@@ -226,13 +226,13 @@ inline auto attention_forward(const Tensor& Q, const Tensor& K, const Tensor& V,
 	}
 }
 
-inline auto attention_backward(const Tensor& Q, const Tensor& K, const Tensor& V, const Tensor& attn_probs, const Tensor& dOut, Tensor& dQ, Tensor& dK, Tensor& dV, size_t num_heads, Tensor& dA, Tensor& dS) -> void
+inline auto attention_backward(const Tensor& Q, const Tensor& K, const Tensor& V, const Tensor& attn_probs, const Tensor& dOut, Tensor& dQ, Tensor& dK, Tensor& dV, size_t num_heads, Tensor& dA, Tensor& dS) noexcept -> void
 {
 	size_t B = Q.shape(0);
 	size_t T = Q.shape(1);
 	size_t D = Q.shape(2);
 	size_t dk = D / num_heads;
-	float csm = 1.0f / sqrt(dk);
+	float csm = 1.0f / sqrtf(static_cast<float>(dk));
 	dQ.Zero();
 	dK.Zero();
 	dV.Zero();
@@ -276,7 +276,7 @@ inline auto attention_backward(const Tensor& Q, const Tensor& K, const Tensor& V
 	}
 }
 
-inline auto swiglu_forward(const Tensor& gate, const Tensor& up, Tensor& out) -> void
+inline auto swiglu_forward(const Tensor& gate, const Tensor& up, Tensor& out) noexcept -> void
 {
 	const float* g_ptr = gate.data();
 	const float* u_ptr = up.data();
@@ -295,7 +295,7 @@ inline auto swiglu_forward(const Tensor& gate, const Tensor& up, Tensor& out) ->
 	}
 }
 
-inline auto swiglu_backward(const Tensor& gate, const Tensor& up, const Tensor& dOut, Tensor& dgate, Tensor& dup) -> void
+inline auto swiglu_backward(const Tensor& gate, const Tensor& up, const Tensor& dOut, Tensor& dgate, Tensor& dup) noexcept -> void
 {
 	const float* g_ptr = gate.data();
 	const float* u_ptr = up.data();

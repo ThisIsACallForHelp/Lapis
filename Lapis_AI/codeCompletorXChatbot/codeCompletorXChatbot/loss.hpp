@@ -1,7 +1,7 @@
 #pragma once
 #include "tensor.hpp"
 
-inline auto cross_entropy_forward(Tensor& logits, Tensor& targets) -> float
+[[nodiscard]] inline auto cross_entropy_forward(const Tensor& logits, const Tensor& targets) noexcept -> float
 {
 	float max_logit = 0.0f;
 	float sum = 0.0f;
@@ -28,7 +28,7 @@ inline auto cross_entropy_forward(Tensor& logits, Tensor& targets) -> float
 			sum += expf(curr - max_logit);
 		}
 		log_sum_exp = max_logit + logf(sum);
-		target = targets(i);
+		target = static_cast<size_t>(targets(i));
 		raw_target = logits(i,target);
 		token_loss = log_sum_exp - raw_target;
 		batch_loss += token_loss;
@@ -37,12 +37,11 @@ inline auto cross_entropy_forward(Tensor& logits, Tensor& targets) -> float
 	return batch_loss;
 }
 
-inline auto cross_entropy_backward(Tensor& logits, Tensor& targets, Tensor& dLogits) -> void
+inline auto cross_entropy_backward(const Tensor& logits, const Tensor& targets, Tensor& dLogits) noexcept -> void
 {
 	float max_logit = 0.0f;
 	float sum = 0.0f;
 	float curr = 0.0;
-	float raw_target = 0.0f;
 	float normalized_softmax = 0.0f;
 	float gradient = 0.0f;
 	size_t target = 0;
@@ -62,7 +61,7 @@ inline auto cross_entropy_backward(Tensor& logits, Tensor& targets, Tensor& dLog
 			curr = logits(i, v);
 			sum += expf(curr - max_logit);
 		}
-		target = targets(i);
+		target = static_cast<size_t>(targets(i));
 		for (size_t v = 0; v < V; ++v)
 		{
 			normalized_softmax = expf(logits(i,v) - max_logit) / sum;

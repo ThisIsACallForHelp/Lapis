@@ -16,7 +16,7 @@ struct ModelConfig {
 	size_t context_length = 512;
 	size_t vocab_size = 1024;
 	float eps = 1e-5f;
-	auto head_dim() const -> size_t 
+	[[nodiscard]] auto head_dim() const -> size_t
 	{	
 		assert(dim % num_heads == 0);
 		return dim/num_heads;
@@ -60,7 +60,7 @@ struct TransformerBlock {
 	Tensor v_W_gate;
 	Tensor v_W_up;
 	Tensor v_W_down;
-	static auto create(MemoryArena& arena, const ModelConfig& cfg) -> TransformerBlock
+	[[nodiscard]] static auto create(MemoryArena& arena, const ModelConfig& cfg) -> TransformerBlock
 	{
 		TransformerBlock tb;
 		size_t D = cfg.dim;
@@ -107,7 +107,7 @@ struct LayerActivations
 {
 	Tensor x_norm1, rstd1, Q, K, V, attn_probs, attn_out, x_mid,
 		x_norm2, rstd2, gate, up, swiglu_out, ffn_down, x_out, attn_proj;
-	static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> LayerActivations
+	[[nodiscard]] static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> LayerActivations
 	{
 		size_t M = B * T;
 		size_t D = cfg.dim;
@@ -136,7 +136,7 @@ struct LayerActivations
 struct BackwardWorkspace
 {
 	Tensor dx_final, dx_curr, dx_prev, dx_mid, dswiglu_out, dgate, dup, dx_norm2, dattn_proj, dattn_out, dQ, dK, dV, dA, dS, dx_norm1;
-	static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> BackwardWorkspace
+	[[nodiscard]] static auto create(MemoryArena& arena, const ModelConfig& cfg, size_t B, size_t T) -> BackwardWorkspace
 	{
 		size_t M = B * T;
 		size_t D = cfg.dim;
@@ -178,7 +178,7 @@ struct TransformerModel
 	Tensor m_lm_head;
 	Tensor v_lm_head;
 	ModelConfig config;
-	static auto create(MemoryArena& arena, const ModelConfig& cfg) -> TransformerModel
+	[[nodiscard]] static auto create(MemoryArena& arena, const ModelConfig& cfg) -> TransformerModel
 	{
 		TransformerModel tm;
 		tm.config = cfg;
@@ -272,7 +272,7 @@ struct TransformerModel
 			b.v_W_down.Zero();
 		}
 	}
-	auto zero_grad() -> void
+	auto zero_grad() noexcept -> void
 	{
 		this->d_token_embeddings.Zero();
 		this->d_gamma_final.Zero();
@@ -290,7 +290,7 @@ struct TransformerModel
 			b.dW_down.Zero();
 		}
 	}
-	auto step_optimizer(float lr, size_t step, float beta1 = 0.9f, float beta2 = 0.999f, float eps = 1e-8f, float weight_decay = 0.01f) -> void
+	auto step_optimizer(float lr, size_t step, float beta1 = 0.9f, float beta2 = 0.999f, float eps = 1e-8f, float weight_decay = 0.01f) noexcept -> void
 	{
 		adamw_step(this->token_embeddings, this->m_token_embeddings, this->v_token_embeddings, d_token_embeddings, lr, step, beta1, beta2, eps, weight_decay);
 		adamw_step(this->gamma_final, this->m_gamma_final, this->v_gamma_final, this->d_gamma_final, lr, step, beta1, beta2, eps, 0.0f);

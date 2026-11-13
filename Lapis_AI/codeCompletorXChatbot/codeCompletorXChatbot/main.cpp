@@ -4,9 +4,9 @@
 #include "tensor.hpp"
 #include "model.hpp"
 
-int main()
+auto main() -> int
 {
-	MemoryArena arena((long long)2 * 1024 * 1024 * 1024);
+	MemoryArena arena;
 	ModelConfig cfg;
 	TransformerModel tm = TransformerModel::create(arena, cfg);
 	tm.init_weights(1337);
